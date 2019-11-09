@@ -21,6 +21,7 @@
   "homepage": "https://github.com/mateja176/drizzle-react-tutorial#readme",
   "description": "",
   "devDependencies": {
+    "@types/web3": "^1.2.2",
     "truffle": "^5.0.44"
   }
 }

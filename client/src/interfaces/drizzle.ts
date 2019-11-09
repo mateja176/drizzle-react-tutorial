@@ -1,8 +1,10 @@
-import { Drizzle } from '@drizzle/store';
+import { Drizzle as DrizzleStore } from '@drizzle/store';
 import { Store } from 'redux';
+import { Contract } from 'web3/types';
 
-export interface DrizzleWithStore extends Drizzle {
+export interface Drizzle extends DrizzleStore {
   store: Store;
+  contracts: { [key: string]: Contract };
 }
 
 export interface Accounts {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DrizzleWithStore } from './interfaces/drizzle';
+import { Drizzle } from './interfaces/drizzle';
 
 export const Loading: React.FC = () => {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -28,7 +28,7 @@ export const Loading: React.FC = () => {
 };
 
 export interface AppProps {
-  drizzle: DrizzleWithStore;
+  drizzle: Drizzle;
 }
 
 const App: React.FC<AppProps> = ({ drizzle }) => {
