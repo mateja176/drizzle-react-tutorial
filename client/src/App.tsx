@@ -1,31 +1,7 @@
 import React from 'react';
-import { Drizzle } from './interfaces/drizzle';
-
-export const Loading: React.FC = () => {
-  const ref = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    ref.current!.animate(
-      [{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
-      { duration: 1000, iterations: Infinity },
-    );
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      style={{
-        borderRadius: '50%',
-        borderWidth: 2,
-        borderStyle: 'solid',
-        borderLeftColor: '#ccc',
-        borderTopColor: '#ccc',
-        height: 20,
-        width: 20,
-      }}
-    />
-  );
-};
+import { Loading } from './components/Loading';
+import ReadString from './components/ReadString';
+import { Drizzle, DrizzleState } from './interfaces/drizzle';
 
 export interface AppProps {
   drizzle: Drizzle;
@@ -33,7 +9,9 @@ export interface AppProps {
 
 const App: React.FC<AppProps> = ({ drizzle }) => {
   const [loading, setLoading] = React.useState(true);
-  const [drizzleState, setDrizzleState] = React.useState({});
+  const [drizzleState, setDrizzleState] = React.useState<DrizzleState | null>(
+    null,
+  );
 
   React.useEffect(() => {
     // subscribe to changes in the store
@@ -49,10 +27,10 @@ const App: React.FC<AppProps> = ({ drizzle }) => {
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return loading ? (
+  return loading || !drizzleState ? (
     <Loading />
   ) : (
-    <pre>{JSON.stringify(drizzleState, null, 2)}</pre>
+    <ReadString drizzle={drizzle} drizzleState={drizzleState} />
   );
 };
 

@@ -2,9 +2,20 @@ import { Drizzle as DrizzleStore } from '@drizzle/store';
 import { Store } from 'redux';
 import { Contract } from 'web3/types';
 
+type Method = Contract['methods'][string];
+
 export interface Drizzle extends DrizzleStore {
   store: Store;
-  contracts: { [key: string]: Contract };
+  contracts: {
+    [key: string]: Omit<Contract, 'methods'> & {
+      methods: {
+        [key: string]: {
+          (...args: Parameters<Method>): ReturnType<Method>;
+          cacheCall: () => string;
+        };
+      };
+    };
+  };
 }
 
 export interface Accounts {
@@ -33,7 +44,18 @@ export interface AccountBalances {
   0x8ceaf6c51ca27fadd27ee1f9d4882fd0dc7cf18f: string;
 }
 
-export interface MyString {}
+export interface Args {}
+
+export interface Value {
+  args: Args;
+  fnIndex: number;
+  value: string;
+  error?: any;
+}
+
+export interface MyString {
+  [key: string]: Value | undefined;
+}
 
 export interface MyStringStore {
   initialized: boolean;
