@@ -1,13 +1,8 @@
 import React from 'react';
-import { Drizzle, DrizzleState } from '../interfaces/drizzle';
+import { DrizzleProps } from '../interfaces/drizzle';
 import { Loading } from './Loading';
 
-export interface ReadStringProps {
-  drizzle: Drizzle;
-  drizzleState: DrizzleState;
-}
-
-const ReadString: React.FC<ReadStringProps> = ({ drizzle, drizzleState }) => {
+const ReadString: React.FC<DrizzleProps> = ({ drizzle, drizzleState }) => {
   const [dataKey, setDataKey] = React.useState('');
 
   React.useEffect(() => {

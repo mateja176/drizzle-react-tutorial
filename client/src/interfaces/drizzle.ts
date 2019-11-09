@@ -1,20 +1,11 @@
 import { Drizzle as DrizzleStore } from '@drizzle/store';
 import { Store } from 'redux';
-import { Contract } from 'web3/types';
-
-type Method = Contract['methods'][string];
+import { Contract } from 'web3-eth-contract';
 
 export interface Drizzle extends DrizzleStore {
   store: Store;
   contracts: {
-    [key: string]: Omit<Contract, 'methods'> & {
-      methods: {
-        [key: string]: {
-          (...args: Parameters<Method>): ReturnType<Method>;
-          cacheCall: () => string;
-        };
-      };
-    };
+    [key: string]: Contract;
   };
 }
 
@@ -128,4 +119,9 @@ export interface DrizzleState {
   transactions: Transactions;
   transactionStack: any[];
   web3: Web3;
+}
+
+export interface DrizzleProps {
+  drizzle: Drizzle;
+  drizzleState: DrizzleState;
 }
