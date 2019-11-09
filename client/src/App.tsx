@@ -1,26 +1,59 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { DrizzleWithStore } from './interfaces/drizzle';
 
-const App: React.FC = () => {
+export const Loading: React.FC = () => {
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    ref.current!.animate(
+      [{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
+      { duration: 1000, iterations: Infinity },
+    );
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div
+      ref={ref}
+      style={{
+        borderRadius: '50%',
+        borderWidth: 2,
+        borderStyle: 'solid',
+        borderLeftColor: '#ccc',
+        borderTopColor: '#ccc',
+        height: 20,
+        width: 20,
+      }}
+    />
   );
+};
+
+export interface AppProps {
+  drizzle: DrizzleWithStore;
 }
+
+const App: React.FC<AppProps> = ({ drizzle }) => {
+  const [loading, setLoading] = React.useState(true);
+  const [drizzleState, setDrizzleState] = React.useState({});
+
+  React.useEffect(() => {
+    // subscribe to changes in the store
+    return drizzle.store.subscribe(() => {
+      // every time the store updates, grab the state from drizzle
+      const drizzleState = drizzle.store.getState();
+
+      // check to see if it's ready, if so, update local component state
+      if (drizzleState.drizzleStatus.initialized) {
+        setLoading(false);
+        setDrizzleState(drizzleState);
+      }
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return loading ? (
+    <Loading />
+  ) : (
+    <pre>{JSON.stringify(drizzleState, null, 2)}</pre>
+  );
+};
 
 export default App;
