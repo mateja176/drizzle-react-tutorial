@@ -103,7 +103,11 @@ export interface DrizzleStatus {
   initialized: boolean;
 }
 
-export interface Transactions {}
+export interface Transactions {
+  [key: string]: {
+    status: string;
+  };
+}
 
 export interface Web3 {
   status: string;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Loading } from './components/Loading';
 import ReadString from './components/ReadString';
+import SetString from './components/SetString';
 import { Drizzle, DrizzleState } from './interfaces/drizzle';
 
 export interface AppProps {
@@ -30,7 +31,10 @@ const App: React.FC<AppProps> = ({ drizzle }) => {
   return loading || !drizzleState ? (
     <Loading />
   ) : (
-    <ReadString drizzle={drizzle} drizzleState={drizzleState} />
+    <div>
+      <ReadString drizzle={drizzle} drizzleState={drizzleState} />
+      <SetString drizzle={drizzle} drizzleState={drizzleState} />
+    </div>
   );
 };
 
